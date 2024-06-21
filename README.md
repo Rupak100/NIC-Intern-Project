@@ -32,3 +32,34 @@ EXPOSE 8080
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+## Build Docker Image
+### go to the root directory of Dockerfile
+```terminal
+docker build -t dockerHub username/my-spring-boot-app .
+```
+## Test Docker Image Locally
+```terminal
+docker run -p 8080:8080 dockerHub username/my-spring-boot-app
+# Access your application at http://localhost:8080 in a web browser or via curl.
+```
+## Push Docker Image to Docker Hub
+### Login to Docker Hub using the Docker CLI.
+```
+docker login
+```
+### Push the Docker image to your Docker Hub repository
+```
+docker push dockerHub username/my-spring-boot-app
+```
+## Now Your have successfully deployed your docker image to the Docker hub .
+### For Testing run
+```
+docker run -p 8080:8080 Docker Image Url
+```
+
+
+
+
+
+
