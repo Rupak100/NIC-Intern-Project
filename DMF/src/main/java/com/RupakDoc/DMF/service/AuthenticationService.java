@@ -1,9 +1,12 @@
-package com.RupakDoc.DMF.auth;
+package com.RupakDoc.DMF.service;
 
 
 
 import com.RupakDoc.DMF.Jwt.JwtService;
 //import com.RupakDoc.DMF.model.Role;
+import com.RupakDoc.DMF.auth.AuthenticationRequest;
+import com.RupakDoc.DMF.auth.AuthenticationResponse;
+import com.RupakDoc.DMF.auth.RegisterRequest;
 import com.RupakDoc.DMF.model.UserEntity;
 import com.RupakDoc.DMF.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

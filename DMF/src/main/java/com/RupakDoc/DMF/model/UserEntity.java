@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,16 @@ public class UserEntity implements UserDetails {
     private String client_secret;
     private Date created_on;
     private Date expiry_on;
+    @Field("mobile_no")
+    private long mobileNo;
+
+    @Field("email_id")
+    private String emailId;
+
+    private String name;
+    private String gender;
+    private String dob;
+    private String address;
 
     @Override
     public String getUsername() {
@@ -48,15 +59,15 @@ public class UserEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public void setUsername(String username) {
-        this.client_id = username;
-    }
+//
+//    public void setUsername(String username) {
+//        this.client_id = username;
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Return an empty collection or a default authority
-        return List.of(new SimpleGrantedAuthority("ROLE_USER")); // or Collections.emptyList()
+        return List.of(new SimpleGrantedAuthority("CLIENT")); // or Collections.emptyList()
     }
 
     @Override
@@ -64,7 +75,7 @@ public class UserEntity implements UserDetails {
         return client_secret;
     }
 
-    public void setPassword(String password) {
-        this.client_secret = password;
-    }
+//    public void setPassword(String password) {
+//        this.client_secret = password;
+//    }
 }
