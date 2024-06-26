@@ -1,9 +1,11 @@
 package com.RupakDoc.DMF.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,22 +22,20 @@ import java.util.List;
 @NoArgsConstructor
 @Document(collection = "client")
 public class UserEntity implements UserDetails {
+
+    @Id
     private String client_id;
     private String client_secret;
     private Date created_on;
     private Date expiry_on;
-    @Field("mobile_no")
-    private long mobileNo;
-
-    @Field("email_id")
-    private String emailId;
-
+    private long mobile_no;
+    private String email_id;
     private String name;
     private String gender;
     private String dob;
     private String address;
 
-    @Override
+
     public String getUsername() {
         return client_id;
     }
@@ -59,10 +59,6 @@ public class UserEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-//
-//    public void setUsername(String username) {
-//        this.client_id = username;
-//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,8 +70,4 @@ public class UserEntity implements UserDetails {
     public String getPassword() {
         return client_secret;
     }
-
-//    public void setPassword(String password) {
-//        this.client_secret = password;
-//    }
 }

@@ -9,15 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class ClientService {
-
-    private static final Logger log = LoggerFactory.getLogger(ClientService.class);
-
     @Autowired
-    private UserRepository userRepository;
+     UserRepository userRepository;
 
     public Optional<String> login(long mobileNo) {
         Optional<UserEntity> optionalClient = userRepository.findByMobileNo(mobileNo);
@@ -25,8 +26,7 @@ public class ClientService {
     }
 
     private String generateOtp() {
-        // Generate a 4-digit OTP
-        return String.format("%04d", (int) (Math.random() * 10000));
+        return String.format("%04d", new Random().nextInt(10000));
     }
 
     public Optional<UserEntity> signup(String clientId, SignUpRequestDto signUpRequestDto) {
@@ -36,17 +36,13 @@ public class ClientService {
 
         return userRepository.findByClientId(clientId)
                 .map(client -> {
-                    client.setMobileNo(signUpRequestDto.getMobileNo());
-                    client.setEmailId(signUpRequestDto.getEmailId());
+                    client.setMobile_no(signUpRequestDto.getMobileNo());
+                    client.setEmail_id(signUpRequestDto.getEmailId());
                     client.setName(signUpRequestDto.getName());
                     client.setGender(signUpRequestDto.getGender());
                     client.setDob(signUpRequestDto.getDob());
                     client.setAddress(signUpRequestDto.getAddress());
-                    deleteClientsWithMobileNoZero();
                     return userRepository.save(client);
                 });
-    }
-    public void deleteClientsWithMobileNoZero() {
-        userRepository.deleteByMobileNo(0);
     }
 }
