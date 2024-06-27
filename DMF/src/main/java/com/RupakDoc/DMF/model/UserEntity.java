@@ -1,13 +1,9 @@
 package com.RupakDoc.DMF.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,8 +30,12 @@ public class UserEntity implements UserDetails {
     private String gender;
     private String dob;
     private String address;
+    @Getter
+    @Setter
+    private Role role;
 
-
+    @JsonIgnore
+    @Override
     public String getUsername() {
         return client_id;
     }
@@ -62,12 +62,13 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Return an empty collection or a default authority
-        return List.of(new SimpleGrantedAuthority("CLIENT")); // or Collections.emptyList()
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return client_secret;
     }
+
 }

@@ -3,7 +3,7 @@ package com.RupakDoc.DMF.service;
 
 
 import com.RupakDoc.DMF.Jwt.JwtService;
-//import com.RupakDoc.DMF.model.Role;
+import com.RupakDoc.DMF.model.Role;
 import com.RupakDoc.DMF.auth.AuthenticationRequest;
 import com.RupakDoc.DMF.auth.AuthenticationResponse;
 import com.RupakDoc.DMF.auth.RegisterRequest;
@@ -40,7 +40,7 @@ public class AuthenticationService {
                 .client_secret(passwordEncoder.encode(request.getClient_secret()))
                 .created_on(date)
                 .expiry_on(expiryDate)
-//                .role(Role.USER)
+                .role(Role.USER)
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
