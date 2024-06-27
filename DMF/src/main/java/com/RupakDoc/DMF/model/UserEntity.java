@@ -1,9 +1,8 @@
 package com.RupakDoc.DMF.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,11 +18,23 @@ import java.util.List;
 @NoArgsConstructor
 @Document(collection = "client")
 public class UserEntity implements UserDetails {
+
+    @Id
     private String client_id;
     private String client_secret;
     private Date created_on;
     private Date expiry_on;
+    private long mobile_no;
+    private String email_id;
+    private String name;
+    private String gender;
+    private String dob;
+    private String address;
+    @Getter
+    @Setter
+    private Role role;
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return client_id;
@@ -49,22 +60,15 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-    public void setUsername(String username) {
-        this.client_id = username;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Return an empty collection or a default authority
-        return List.of(new SimpleGrantedAuthority("ROLE_USER")); // or Collections.emptyList()
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return client_secret;
     }
 
-    public void setPassword(String password) {
-        this.client_secret = password;
-    }
 }
